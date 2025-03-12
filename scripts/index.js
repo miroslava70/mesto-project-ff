@@ -29,13 +29,11 @@ function addImages(imageLink, NameValue) {
 
     // @todo: Функция удаления карточки
     deleteButton.addEventListener('click', function (e) {
-        console.log(e.target);
         card.remove();
     });
 
     likeButton.addEventListener('click', function (evt) {
         const eventTarget = evt.target;
-        console.log(eventTarget)
         eventTarget.classList.toggle('card__like-button_is-active');
     });
 
@@ -45,4 +43,15 @@ function addImages(imageLink, NameValue) {
 // @todo: Вывести карточки на страницу
 initialCards.forEach(function (element) {
     addImages(element.link, element.name);
+});
+
+addButton.addEventListener('click', function() {
+    popup.classList.remove('popup_is-opened');
+
+    const link = popup.querySelector('.popup__input_type_url');
+    const name = popup.querySelector('.popup__input_type_card-name');
+    addImages(link.value, name.value);
+
+    link.value = '';
+    name.value = '';
 });
