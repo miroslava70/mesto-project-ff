@@ -1,35 +1,24 @@
 // @todo: DOM узлы
 const content = document.querySelector('.content');
-const places = content.querySelector('.places__list')
-const popupButton = content.querySelector('.profile__add-button');
-const popup = document.querySelector('.popup_type_new-card');
-const addButton = popup.querySelector('.popup__button');
-const closePopup = popup.querySelector('.popup__close');
-
-// @todo: Popup
-popupButton.addEventListener('click', function () {
-    popup.classList.add('popup_is-opened');
-});
-
-closePopup.addEventListener('click', function () {
-    popup.classList.remove('popup_is-opened');
-});
+const places = content.querySelector('.places__list');
 
 // @todo: Функция создания карточки
-function addCard(linkValue, nameValue) {
+function addCard(linkValue, nameValue, altValue) {
     // @todo: Темплейт карточки
     const cardTemplate = document.querySelector('#card-template').content;
     const card = cardTemplate.querySelector('.card').cloneNode(true);
 
     const likeButton = card.querySelector('.card__like-button');
     const deleteButton = card.querySelector('.card__delete-button');
+    const cardImage = card.querySelector('.card__image');
+    const cardName = card.querySelector('.card__title');
 
-    card.querySelector('.card__image').src = linkValue;
-    card.querySelector('.card__title').textContent = nameValue;
+    cardImage.src = linkValue;
+    cardName.textContent = nameValue;
+    cardImage.alt = altValue;
 
-    // @todo: Функция удаления карточки
     deleteButton.addEventListener('click', function () {
-        card.remove();
+        deleteCard(card);
     });
 
     likeButton.addEventListener('click', function (evt) {
@@ -37,21 +26,16 @@ function addCard(linkValue, nameValue) {
         eventTarget.classList.toggle('card__like-button_is-active');
     });
 
-    places.append(card);
+    return card;
+
 };
+
+// @todo: Функция удаления карточки
+function deleteCard(item) {
+    item.remove();
+}
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach(function (element) {
-    addCard(element.link, element.name);
-});
-
-addButton.addEventListener('click', function () {
-    popup.classList.remove('popup_is-opened');
-
-    const link = popup.querySelector('.popup__input_type_url');
-    const name = popup.querySelector('.popup__input_type_card-name');
-    addCard(link.value, name.value);
-
-    link.value = '';
-    name.value = '';
+    places.append(addCard(element.link, element.name, element.alt));
 });
