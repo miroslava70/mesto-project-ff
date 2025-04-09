@@ -1,14 +1,37 @@
-import escPopup from "./closePopupWithKey";
-
-function popupOpen(item) {
+// Открытие и закрытие попапов
+function openPopup(item) {
     item.classList.add('popup_is-opened');
-    document.addEventListener('keydown', escPopup);
+    addExtraCloseMethods(item);
 }
 
-function popupClose(item, form) {
+function closePopup(item) {
     item.classList.remove('popup_is-opened');
-    document.removeEventListener('keydown', escPopup);
+    document.removeEventListener('keydown', closeWithEscKeyPopup);
+    deleteExtraCloseMethods(item);
 }
 
-export { popupOpen, popupClose };
+// Дополнительные способы закрытия попапов
+function closeWithEscKeyPopup(evt) {
+    if (evt.key === 'Escape') {
+        closePopup(document.querySelector('.popup_is-opened'));
+    }
+}
+
+function closeWithMousePopup(evt) {
+    if (evt.target === document.querySelector('.popup_is-opened')) {
+        closePopup(document.querySelector('.popup_is-opened'));
+    }
+}
+
+function addExtraCloseMethods(item) {
+    document.addEventListener('keydown', closeWithEscKeyPopup);
+    item.addEventListener('click', closeWithMousePopup);
+}
+
+function deleteExtraCloseMethods(item) {
+    document.removeEventListener('keydown', closeWithEscKeyPopup);
+    item.removeEventListener('click', closeWithMousePopup);
+}
+
+export { openPopup, closePopup };
 
