@@ -6,7 +6,6 @@ function openPopup(item) {
 
 function closePopup(item) {
     item.classList.remove('popup_is-opened');
-    document.removeEventListener('keydown', closeWithEscKeyPopup);
     deleteExtraCloseMethods(item);
 }
 

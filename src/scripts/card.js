@@ -21,8 +21,10 @@ function createCard(linkValue, nameValue, openImageFunction, deleteCardFunction,
 
 
 // Функция удаления карточки
-function deleteCard() {
-    document.querySelector('.card').remove();
+function deleteCard(evt) {
+    const eventTarget = evt.target;
+    const card = eventTarget.closest('.card')
+    card.remove();
 }
 
 // Функция лайка карточки

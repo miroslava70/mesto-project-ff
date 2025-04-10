@@ -15,6 +15,8 @@ const places = content.querySelector('.places__list');
 
 // ImagePopup
 const imagePopup = document.querySelector('.popup_type_image');
+const popupImage = imagePopup.querySelector('.popup__image');
+const imagePopupTitle = imagePopup.querySelector('.popup__caption')
 const imagePopupCloseButton = imagePopup.querySelector('.popup__close');
 
 // ChangeProfilePopup
@@ -34,11 +36,13 @@ const name = nicknameForm.elements.name;
 const description = nicknameForm.elements.description;
 
 // Функция открытия изображения
-function openImagePopup() {
+function openImagePopup(evt) {
+    const eventTarget = evt.target;
+    const imageName = eventTarget.closest('.card');
+    console.log(imageName);
     openPopup(imagePopup);
-    imagePopup.querySelector('.popup__image').src = document.querySelector('.card__image').src;
-    imagePopup.querySelector('.popup__caption').textContent = document.querySelector('.card__title').textContent;
-    imagePopup.querySelector('.popup__image').alt = document.querySelector('.card__image').alt;
+    popupImage.src = eventTarget.src;
+    imagePopupTitle.textContent = imageName.textContent;
 }
 
 imagePopupCloseButton.addEventListener('click', function () {
