@@ -38,11 +38,10 @@ const description = nicknameForm.elements.description;
 // Функция открытия изображения
 function openImagePopup(evt) {
     const eventTarget = evt.target;
-    const imageName = eventTarget.closest('.card');
-    console.log(imageName);
+    const imageTitle = eventTarget.closest('.card');
     openPopup(imagePopup);
     popupImage.src = eventTarget.src;
-    imagePopupTitle.textContent = imageName.textContent;
+    imagePopupTitle.textContent = imageTitle.textContent;
 }
 
 imagePopupCloseButton.addEventListener('click', function () {
