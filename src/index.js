@@ -38,10 +38,10 @@ const description = nicknameForm.elements.description;
 // Функция открытия изображения
 function openImagePopup(evt) {
     const eventTarget = evt.target;
-    const imageTitle = eventTarget.closest('.card');
     openPopup(imagePopup);
     popupImage.src = eventTarget.src;
-    imagePopupTitle.textContent = imageTitle.textContent;
+    imagePopupTitle.textContent = eventTarget.alt;
+    popupImage.alt = eventTarget.alt;
 }
 
 imagePopupCloseButton.addEventListener('click', function () {
@@ -75,6 +75,8 @@ nicknameForm.addEventListener('submit', function (evt) {
 // Открытие и закрытие addCardPopup
 openAddCardPopupButton.addEventListener('click', function () {
     openPopup(addCardPopup);
+    link.value = '';
+    title.value = '';
 });
 
 closeAddPopupButton.addEventListener('click', function () {

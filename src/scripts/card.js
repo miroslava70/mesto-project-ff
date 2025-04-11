@@ -11,6 +11,7 @@ function createCard(linkValue, nameValue, openImageFunction, deleteCardFunction,
 
     cardImage.src = linkValue;
     cardName.textContent = nameValue;
+    cardImage.alt = nameValue;
 
     cardImage.addEventListener('click', openImageFunction);
     deleteButton.addEventListener('click', deleteCardFunction);
