@@ -75,12 +75,12 @@ nicknameForm.addEventListener('submit', function (evt) {
 // Открытие и закрытие addCardPopup
 openAddCardPopupButton.addEventListener('click', function () {
     openPopup(addCardPopup);
-    link.value = '';
-    title.value = '';
 });
 
 closeAddPopupButton.addEventListener('click', function () {
     closePopup(addCardPopup)
+    link.value = '';
+    title.value = '';
 });
 
 // Вывести встроеные карточки на страницу
