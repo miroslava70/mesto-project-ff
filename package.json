@@ -2,10 +2,13 @@
   "name": "mesto",
   "version": "1.0.0",
   "description": "**'Mesto'** это *место*, где вы можете **делится фотографиями** всем, кто видит ваш профиль",
+  "homepage": "https://github.com/miroslava70/mesto-project-ff",
   "main": "index.js",
   "scripts": {
     "build": "rm -rf dist && webpack --mode production",
-    "dev": "webpack serve --open"
+    "dev": "webpack serve --open",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist -r https://github.com/miroslava70/mesto-project-ff"
   },
   "author": "Miroslava",
   "license": "ISC",
@@ -22,6 +25,7 @@
     "css-loader": "^7.1.2",
     "cssnano": "^7.0.6",
     "del": "^6.0.0",
+    "gh-pages": "^6.3.0",
     "html-webpack-plugin": "^5.6.3",
     "mini-css-extract-plugin": "^2.9.2",
     "postcss-loader": "^8.1.1",

@@ -15,4 +15,4 @@
 * Заготовка: Яндекс Практикум;
 * Собственная версия: Зимонина Мирослава;
 * Ссылка на репрозиторий: https://github.com/miroslava70/mesto-project-ff
-
+* Ссылка на деплой: https://miroslava70.github.io/mesto-project-ff/
