@@ -2,7 +2,6 @@
   "name": "mesto",
   "version": "1.0.0",
   "description": "**'Mesto'** это *место*, где вы можете **делится фотографиями** всем, кто видит ваш профиль",
-  "homepage": "https://github.com/miroslava70/mesto-project-ff",
   "main": "index.js",
   "scripts": {
     "build": "rm -rf dist && webpack --mode production",
