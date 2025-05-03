@@ -1,0 +1,5 @@
+@import url('./__count/like__count.css');
+
+.like__list {
+    list-style: none;
+}
