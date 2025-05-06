@@ -72,6 +72,7 @@
                 placeholder="Имя"
                 minlength="2"
                 maxlength="40"
+                pattern="^[a-zA-Zа-яА-Я\s\-]+$"
                 required
               >
               <span class="popup__error_text name__error_text"></span>
@@ -83,6 +84,7 @@
                 placeholder="Занятие"
                 minlength="2"
                 maxlength="200"
+                pattern="^[a-zA-Zа-яА-Я\s\-]+$"
                 required
               >
               <span class="popup__error_text description__error_text"></span>
@@ -105,6 +107,8 @@
               placeholder="Название"
               minlength="2"
               maxlength="30"
+              pattern="^[a-zA-Zа-яА-Я\s\-]+$"
+              data-error-message="Это поле может содержать только лантиские и кириллические буквы, знаки дефиса и пробелы"
               required
             >
               <span class="popup__error_text placeName__error_text"></span>

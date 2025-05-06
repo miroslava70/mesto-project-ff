@@ -17,7 +17,7 @@ function closeWithEscKeyPopup(evt) {
 }
 
 function closeWithMousePopup(evt) {
-    if (evt.target === document.querySelector('.popup_is-opened')) {
+    if (evt.target.classList.contains('.popup_is-opened')) {
         closePopup(document.querySelector('.popup_is-opened'));
     }
 }
