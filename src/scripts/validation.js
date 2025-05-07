@@ -8,7 +8,7 @@ function undisableButton(buttonElement, buttonDisabledSelector) {
     buttonElement.classList.remove(buttonDisabledSelector);
 }
 
-function customPatternValidationCheck(input){
+function customPatternValidationCheck(input) {
     if (input.validity.patternMismatch) {
         input.setCustomValidity(input.dataset.errorMessage)
     } else {
@@ -16,24 +16,24 @@ function customPatternValidationCheck(input){
     }
 }
 
-function addValidationErrorClass(input, errorText, buttonElement, buttonDisabledSelector) {
+function addValidationErrorClass(input, inputErrorSelector, errorText, buttonElement, buttonDisabledSelector) {
     disableButton(buttonElement, buttonDisabledSelector)
-    input.classList.add('popup__input_validationError');
+    input.classList.add(inputErrorSelector);
     errorText.textContent = input.validationMessage;
 }
 
-function removeValidationErrorClass(input, errorText, buttonElement, buttonDisabledSelector) {
+function removeValidationErrorClass(input, inputErrorSelector, errorText, buttonElement, buttonDisabledSelector) {
     undisableButton(buttonElement, buttonDisabledSelector)
-    input.classList.remove('popup__input_validationError');
+    input.classList.remove(inputErrorSelector);
     errorText.textContent = '';
 }
 
-function checkValidation(input, button, errorText, buttonDisabledSelector) {
+function checkValidation(input, inputErrorSelector, button, errorText, buttonDisabledSelector) {
     customPatternValidationCheck(input)
     if (!input.validity.valid) {
-        addValidationErrorClass(input, errorText, button, buttonDisabledSelector)
+        addValidationErrorClass(input, inputErrorSelector, errorText, button, buttonDisabledSelector)
     } else {
-        removeValidationErrorClass(input, errorText, button, buttonDisabledSelector)
+        removeValidationErrorClass(input, inputErrorSelector, errorText, button, buttonDisabledSelector)
     }
 }
 
@@ -49,19 +49,19 @@ function enableValidation(settings) {
             input.addEventListener('input', function () {
                 const button = formItem.querySelector(settings.submitButtonSelector)
                 const errorText = formItem.querySelector(`.${input.id}__error_text`);
-                checkValidation(input, button, errorText, settings.buttonDisabledSelector);
+                checkValidation(input, settings.inputErrorSelector, button, errorText, settings.buttonDisabledSelector);
             })
         })
     })
 };
 
-function clearValidation(form) {
-    const inputList = form.querySelectorAll('.popup__input');
-    const button = form.querySelector('.popup__button')
+function clearValidation(form, settings) {
+    const inputList = form.querySelectorAll(settings.inputSelector);
+    const button = form.querySelector(settings.submitButtonSelector)
     inputList.forEach(function (input) {
         const errorText = form.querySelector(`.${input.id}__error_text`);
-        removeValidationErrorClass(input, errorText, button);
-        disableButton(button);
+        removeValidationErrorClass(input, settings.inputErrorSelector, errorText, button, settings.buttonDisabledSelector);
+        disableButton(button, settings.buttonDisabledSelector);
     })
 }
 export { enableValidation, clearValidation };

@@ -1,9 +1,10 @@
 // Импорты
 import './blocks/styles.css';
 import { openPopup, closePopup } from "./scripts/modal.js";
-import { createCard, deleteCard, likeCard } from "./scripts/card.js";
+import { createCard, deleteCard } from "./scripts/card.js";
 import { enableValidation, clearValidation } from "./scripts/validation.js";
 import { loadProfileAPI, loadCardsAPI, loadCardDataAPI, changeProfileAPI, changeAvatarAPI } from "./scripts/api.js";
+import { catchErrors } from './utils/catchErrors.js';
 
 let myID;
 
@@ -50,6 +51,7 @@ const description = nicknameForm.elements.description;
 enableValidation({
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
+    inputErrorSelector: 'popup__input_validationError',
     submitButtonSelector: '.popup__button',
     buttonDisabledSelector: 'popup__button_disabled'
 });
@@ -61,23 +63,22 @@ Promise.all([loadProfileAPI(), loadCardsAPI()])
         profileDescription.textContent = profileInfo.about;
         avatar.style.backgroundImage = `url('${profileInfo.avatar}')`;
         cards.forEach(function (element) {
-            places.prepend(createCard(element.link, element.name, openImagePopup, deleteCard, element._id));
-            document.querySelector('.like__count').textContent = element.likes.length;
+            places.prepend(createCard(element.link, element.name, openImagePopup, deleteCard, {
+                cardId: element._id,
+                cardLikes: element.likes,
+                ownerId: element.owner._id
+            }, myID));
+
             if (element.owner._id !== myID) {
                 const deleteButton = document.querySelector('.card__delete-button');
                 deleteButton.remove();
             }
-            if (element.likes.some((like) => like._id === myID)) {
-                document.querySelector('.card__like-button').classList.add('card__like-button_is-active');
-            };
         })
     })
-    .catch((err) => {
-        console.log(err);
-    });
+    .catch(catchErrors);
 
-function renderLoading(isLoading, button, buttonText='Сохранить', loadingText='Сохранение...'){
-    if(isLoading){
+function renderLoading(isLoading, button, buttonText = 'Сохранить', loadingText = 'Сохранение...') {
+    if (isLoading) {
         button.textContent = loadingText;
     } else {
         button.textContent = buttonText;
@@ -106,7 +107,12 @@ imagePopupCloseButton.addEventListener('click', function () {
 // Функция изменения профиля
 openChangeAvatarPopupButton.addEventListener('click', function () {
     openPopup(changeAvatarPopup);
-    clearValidation(avatarForm);
+    clearValidation(avatarForm, {
+        inputSelector: '.popup__input',
+        inputErrorSelector: 'popup__input_validationError',
+        submitButtonSelector: '.popup__button',
+        buttonDisabledSelector: 'popup__button_disabled'
+    });
     avatarLink.value = '';
 });
 
@@ -117,30 +123,32 @@ closeChangeAvatarPopupButton.addEventListener('click', function () {
 function updateAvatar(newAvatar, evt) {
     submit(evt);
     changeAvatarAPI(newAvatar)
-    .then(() => {
-        avatar.style.backgroundImage = `url('${newAvatar}')`;
-        closePopup(changeAvatarPopup);
-        avatarForm.reset();
-    })
-    .catch((err) => {
-        console.log(err)
-    })
+        .then(() => {
+            avatar.style.backgroundImage = `url('${newAvatar}')`;
+            closePopup(changeAvatarPopup);
+            avatarForm.reset();
+        })
+        .catch(catchErrors)
 
-    .finally(() => {
-        renderLoading(false, evt.submitter, 'Сохранить')
-    })
+        .finally(() => {
+            renderLoading(false, evt.submitter, 'Сохранить')
+        })
     return profile;
 };
 
 avatarForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    clearValidation(avatarForm);
     updateAvatar(avatarLink.value, evt)
 })
 
 openChangeProfilePopupButton.addEventListener('click', function () {
     openPopup(changeProfilePopup);
-    clearValidation(nicknameForm);
+    clearValidation(nicknameForm, {
+        inputSelector: '.popup__input',
+        inputErrorSelector: 'popup__input_validationError',
+        submitButtonSelector: '.popup__button',
+        buttonDisabledSelector: 'popup__button_disabled'
+    });
     name.value = profileName.textContent;
     description.value = profileDescription.textContent;
 });
@@ -152,18 +160,16 @@ closeChangeProfilePopupButton.addEventListener('click', function () {
 function changeName(nameValue, descriptionValue, evt) {
     submit(evt);
     changeProfileAPI(nameValue, descriptionValue)
-    .then(() => {
-        profileName.textContent = nameValue;
-        profileDescription.textContent = descriptionValue;
-        closePopup(changeProfilePopup);
-        nicknameForm.reset();
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-    .finally(() => {
-        renderLoading(false, evt.submitter, 'Сохранить')
-    })
+        .then(() => {
+            profileName.textContent = nameValue;
+            profileDescription.textContent = descriptionValue;
+            closePopup(changeProfilePopup);
+            nicknameForm.reset();
+        })
+        .catch(catchErrors)
+        .finally(() => {
+            renderLoading(false, evt.submitter, 'Сохранить')
+        })
     return profile;
 }
 
@@ -175,7 +181,12 @@ nicknameForm.addEventListener('submit', function (evt) {
 // Открытие и закрытие addCardPopup
 openAddCardPopupButton.addEventListener('click', function () {
     openPopup(addCardPopup);
-    clearValidation(cardForm);
+    clearValidation(cardForm, {
+        inputSelector: '.popup__input',
+        inputErrorSelector: 'popup__input_validationError',
+        submitButtonSelector: '.popup__button',
+        buttonDisabledSelector: 'popup__button_disabled'
+    });
     link.value = '';
     title.value = '';
 });
@@ -190,14 +201,15 @@ cardForm.addEventListener('submit', function (evt) {
     submit(evt);
     loadCardDataAPI(title.value, link.value)
         .then((card) => {
-            clearValidation(cardForm);
             closePopup(addCardPopup);
             cardForm.reset();
-            places.prepend(createCard(card.link, card.name, openImagePopup, deleteCard))
+            places.prepend(createCard(card.link, card.name, openImagePopup, deleteCard, {
+                cardId: card._id,
+                cardLikes: card.likes,
+                ownerId: card.owner._id
+            }))
         })
-        .catch((err) => {
-            console.log(err)
-        })
+        .catch(catchErrors)
         .finally(() => {
             renderLoading(false, evt.submitter, 'Сохранить')
         })

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <meta
       name="viewport"
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     >
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" >
     <title>Mesto</title>
   </head>
   <body class="page">
@@ -24,7 +24,9 @@
             id="avatar"
             class="profile__image"
             style="background-image: url('<%=require('./images/avatar.jpg')%>')"
-          > <button type="button" class="profile__image_change_button"></button></div>
+          >
+            <button type="button" class="profile__image_change_button"></button>
+          </div>
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
             <button class="profile__edit-button" type="button"></button>
@@ -44,15 +46,15 @@
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Обновить аватар</h3>
           <form class="form popup__form" name="editAvatar">
-              <input
-                type="url"
-                name="avatarLink"
-                id="avatarLink"
-                class="popup__input popup__input_type_update"
-                placeholder="Ссылка на аватар"
-                required
-              >
-              <span class="popup__error_text avatarLink__error_text"></span>
+            <input
+              type="url"
+              name="avatarLink"
+              id="avatarLink"
+              class="popup__input popup__input_type_update"
+              placeholder="Ссылка на аватар"
+              required
+            >
+            <span class="popup__error_text avatarLink__error_text"></span>
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
@@ -64,30 +66,30 @@
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Редактировать профиль</h3>
           <form class="form popup__form" name="editProfile">
-              <input
-                type="text"
-                name="name"
-                id="name"
-                class="popup__input popup__input_type_name"
-                placeholder="Имя"
-                minlength="2"
-                maxlength="40"
-                pattern="^[a-zA-Zа-яА-Я\s\-]+$"
-                required
-              >
-              <span class="popup__error_text name__error_text"></span>
-              <input
-                type="text"
-                name="description"
-                id="description"
-                class="popup__input popup__input_type_description"
-                placeholder="Занятие"
-                minlength="2"
-                maxlength="200"
-                pattern="^[a-zA-Zа-яА-Я\s\-]+$"
-                required
-              >
-              <span class="popup__error_text description__error_text"></span>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              class="popup__input popup__input_type_name"
+              placeholder="Имя"
+              minlength="2"
+              maxlength="40"
+              pattern="^[a-zA-Zа-яА-Я\s\-]+$"
+              required
+            >
+            <span class="popup__error_text name__error_text"></span>
+            <input
+              type="text"
+              name="description"
+              id="description"
+              class="popup__input popup__input_type_description"
+              placeholder="Занятие"
+              minlength="2"
+              maxlength="200"
+              pattern="^[a-zA-Zа-яА-Я\s\-]+$"
+              required
+            >
+            <span class="popup__error_text description__error_text"></span>
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
@@ -111,7 +113,7 @@
               data-error-message="Это поле может содержать только лантиские и кириллические буквы, знаки дефиса и пробелы"
               required
             >
-              <span class="popup__error_text placeName__error_text"></span>
+            <span class="popup__error_text placeName__error_text"></span>
             <input
               type="url"
               name="link"
@@ -120,7 +122,7 @@
               placeholder="Ссылка на картинку"
               required
             >
-              <span class="popup__error_text link__error_text"></span>
+            <span class="popup__error_text link__error_text"></span>
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
@@ -130,7 +132,7 @@
       <div class="popup popup_is-animated popup_type_image">
         <div class="popup__content popup__content_content_image">
           <button type="button" class="popup__close"></button>
-          <img src="" alt="" class="popup__image" />
+          <img src="" alt="" class="popup__image">
           <p class="popup__caption"></p>
         </div>
       </div>
@@ -138,7 +140,7 @@
 
     <template id="card-template">
       <li class="places__item card">
-        <img class="card__image" src="" alt="" />
+        <img class="card__image" src="" alt="">
         <button type="button" class="card__delete-button"></button>
         <div class="card__description">
           <h2 class="card__title"></h2>

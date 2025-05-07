@@ -1,7 +1,8 @@
-import {loadCardDataAPI, deleteCardAPI, APILike, APIUnlike } from "./api";
+import { deleteCardAPI, APILike, APIUnlike } from "./api";
 
+import { catchErrors } from "../utils/catchErrors";
 // Функция создания карточки
-function createCard(linkValue, nameValue, openImageFunction, deleteCardFunction, cardId) {
+function createCard(linkValue, nameValue, openImageFunction, deleteCardFunction, cardInfo, userId) {
     // @todo: Темплейт карточки
     const cardTemplate = document.querySelector('#card-template').content;
     const card = cardTemplate.querySelector('.card').cloneNode(true);
@@ -15,14 +16,20 @@ function createCard(linkValue, nameValue, openImageFunction, deleteCardFunction,
     cardImage.src = linkValue;
     cardName.textContent = nameValue;
     cardImage.alt = nameValue;
-            cardImage.addEventListener('click', openImageFunction);
-            deleteButton.addEventListener('click', function(evt){
-                deleteCardFunction(evt.target, cardId);
-            });
-            likeButton.addEventListener('click', function (evt) {
-                const eventTarget = evt.target;
-                likeCard(cardId, eventTarget, likeCount)
-            });
+    likeCount.textContent = cardInfo.cardLikes.length;
+    if (cardInfo.cardLikes.some((like) => like._id === userId)) {
+        likeButton.classList.add('card__like-button_is-active');
+    };
+
+    cardImage.addEventListener('click', openImageFunction);
+    deleteButton.addEventListener('click', function (evt) {
+        deleteCardFunction(evt.target, cardInfo.cardId);
+    });
+
+    likeButton.addEventListener('click', function (evt) {
+        const eventTarget = evt.target;
+        likeCard(cardInfo.cardId, eventTarget, likeCount)
+    });
 
     return card;
 };
@@ -34,9 +41,7 @@ function deleteCard(item, cardId) {
             const card = item.closest('.card')
             card.remove();
         })
-        .catch((err) => {
-            console.log(err)
-        });
+        .catch(catchErrors);
 }
 
 // Функция лайка карточки
@@ -48,15 +53,18 @@ function likeCard(cardId, likeButton, likeCount) {
                 likeButton.classList.add('card__like-button_is-active');
                 likeCount.textContent = likedCard.likes.length;
             })
+
+            .catch(catchErrors)
+
     } else if (likeButton.classList.contains('card__like-button_is-active')) {
         APIUnlike(cardId)
             .then((likedCard) => {
                 likeButton.classList.remove('card__like-button_is-active');
                 likeCount.textContent = likedCard.likes.length;
             })
+
+            .catch(catchErrors);
     }
-
-
 }
 
-export { createCard, deleteCard, likeCard};
+export { createCard, deleteCard, likeCard };

@@ -10,9 +10,9 @@ const config = {
 
 export function loadProfileAPI() {
     return fetch(`${config.baseUrl}/users/me`, {
-      headers: config.headers
+        headers: config.headers
     })
-    .then(checkResponce);
+        .then(checkResponce);
 };
 
 export function changeProfileAPI(name, description) {
@@ -24,14 +24,14 @@ export function changeProfileAPI(name, description) {
             about: description
         })
     })
-    .then(checkResponce);
+        .then(checkResponce);
 };
 
 export function loadCardsAPI() {
     return fetch(`${config.baseUrl}/cards`, {
-      headers: config.headers
+        headers: config.headers
     })
-    .then(checkResponce);
+        .then(checkResponce);
 };
 
 export function loadCardDataAPI(title, link) {
@@ -43,13 +43,7 @@ export function loadCardDataAPI(title, link) {
             link: link
         })
     })
-    .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-  
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+        .then(checkResponce);
 };
 
 export function deleteCardAPI(cardId) {
@@ -57,7 +51,7 @@ export function deleteCardAPI(cardId) {
         method: 'DELETE',
         headers: config.headers
     })
-    .then(checkResponce);
+        .then(checkResponce);
 }
 
 
@@ -66,13 +60,7 @@ export function APILike(cardId) {
         method: 'PUT',
         headers: config.headers
     })
-    .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-  
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+        .then(checkResponce);
 };
 
 export function APIUnlike(cardId) {
@@ -80,7 +68,7 @@ export function APIUnlike(cardId) {
         method: 'DELETE',
         headers: config.headers
     })
-    .then(checkResponce);
+        .then(checkResponce);
 };
 
 export function changeAvatarAPI(newAvatar) {
@@ -89,5 +77,5 @@ export function changeAvatarAPI(newAvatar) {
         headers: config.headers,
         body: JSON.stringify({ avatar: newAvatar })
     })
-    .then(checkResponce);
+        .then(checkResponce);
 };
