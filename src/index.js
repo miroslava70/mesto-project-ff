@@ -10,7 +10,6 @@ let myID;
 
 // DOM узлы
 const content = document.querySelector('.content');
-const formList = Array.from(document.querySelectorAll('.form'));
 
 // AddCardPopUp
 const openAddCardPopupButton = content.querySelector('.profile__add-button');
