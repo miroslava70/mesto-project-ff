@@ -104,7 +104,7 @@ imagePopupCloseButton.addEventListener('click', function () {
 openChangeAvatarPopupButton.addEventListener('click', function () {
     openPopup(changeAvatarPopup);
     clearValidation(avatarForm, settings);
-    avatarLink.value = '';
+    avatarForm.reset();
 });
 
 closeChangeAvatarPopupButton.addEventListener('click', function () {
@@ -117,7 +117,6 @@ function updateAvatar(newAvatar, evt) {
         .then(() => {
             avatar.style.backgroundImage = `url('${newAvatar}')`;
             closePopup(changeAvatarPopup);
-            avatarForm.reset();
         })
         .catch(catchErrors)
 
@@ -150,7 +149,6 @@ function changeName(nameValue, descriptionValue, evt) {
             profileName.textContent = nameValue;
             profileDescription.textContent = descriptionValue;
             closePopup(changeProfilePopup);
-            nicknameForm.reset();
         })
         .catch(catchErrors)
         .finally(() => {
@@ -182,7 +180,6 @@ cardForm.addEventListener('submit', function (evt) {
     loadCardDataAPI(title.value, link.value)
         .then((card) => {
             closePopup(addCardPopup);
-            cardForm.reset();
             places.prepend(createCard(card.link, card.name, openImagePopup, deleteCard, {
                 cardId: card._id,
                 cardLikes: card.likes,
