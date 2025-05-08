@@ -38,6 +38,14 @@ const openChangeAvatarPopupButton = document.querySelector('.profile__image_chan
 const changeAvatarPopup = document.querySelector('.popup_type_changeAvatar');
 const closeChangeAvatarPopupButton = changeAvatarPopup.querySelector('.popup__close')
 
+const settings = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    inputErrorSelector: 'popup__input_validationError',
+    submitButtonSelector: '.popup__button',
+    buttonDisabledSelector: 'popup__button_disabled'
+};
+
 // Формы
 const cardForm = document.forms.newPlace;
 const link = cardForm.elements.link;
@@ -48,13 +56,7 @@ const nicknameForm = document.forms.editProfile;
 const name = nicknameForm.elements.name;
 const description = nicknameForm.elements.description;
 
-enableValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    inputErrorSelector: 'popup__input_validationError',
-    submitButtonSelector: '.popup__button',
-    buttonDisabledSelector: 'popup__button_disabled'
-});
+enableValidation(settings);
 
 Promise.all([loadProfileAPI(), loadCardsAPI()])
     .then(([profileInfo, cards]) => {
@@ -68,11 +70,6 @@ Promise.all([loadProfileAPI(), loadCardsAPI()])
                 cardLikes: element.likes,
                 ownerId: element.owner._id
             }, myID));
-
-            if (element.owner._id !== myID) {
-                const deleteButton = document.querySelector('.card__delete-button');
-                deleteButton.remove();
-            }
         })
     })
     .catch(catchErrors);
@@ -107,12 +104,7 @@ imagePopupCloseButton.addEventListener('click', function () {
 // Функция изменения профиля
 openChangeAvatarPopupButton.addEventListener('click', function () {
     openPopup(changeAvatarPopup);
-    clearValidation(avatarForm, {
-        inputSelector: '.popup__input',
-        inputErrorSelector: 'popup__input_validationError',
-        submitButtonSelector: '.popup__button',
-        buttonDisabledSelector: 'popup__button_disabled'
-    });
+    clearValidation(avatarForm, settings);
     avatarLink.value = '';
 });
 
@@ -143,12 +135,7 @@ avatarForm.addEventListener('submit', function (evt) {
 
 openChangeProfilePopupButton.addEventListener('click', function () {
     openPopup(changeProfilePopup);
-    clearValidation(nicknameForm, {
-        inputSelector: '.popup__input',
-        inputErrorSelector: 'popup__input_validationError',
-        submitButtonSelector: '.popup__button',
-        buttonDisabledSelector: 'popup__button_disabled'
-    });
+    clearValidation(nicknameForm, settings);
     name.value = profileName.textContent;
     description.value = profileDescription.textContent;
 });
@@ -181,14 +168,8 @@ nicknameForm.addEventListener('submit', function (evt) {
 // Открытие и закрытие addCardPopup
 openAddCardPopupButton.addEventListener('click', function () {
     openPopup(addCardPopup);
-    clearValidation(cardForm, {
-        inputSelector: '.popup__input',
-        inputErrorSelector: 'popup__input_validationError',
-        submitButtonSelector: '.popup__button',
-        buttonDisabledSelector: 'popup__button_disabled'
-    });
-    link.value = '';
-    title.value = '';
+    clearValidation(cardForm, settings);
+    cardForm.reset();
 });
 
 closeAddPopupButton.addEventListener('click', function () {
@@ -207,7 +188,7 @@ cardForm.addEventListener('submit', function (evt) {
                 cardId: card._id,
                 cardLikes: card.likes,
                 ownerId: card.owner._id
-            }))
+            }, myID))
         })
         .catch(catchErrors)
         .finally(() => {

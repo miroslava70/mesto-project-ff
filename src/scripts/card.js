@@ -2,7 +2,7 @@ import { deleteCardAPI, APILike, APIUnlike } from "./api";
 
 import { catchErrors } from "../utils/catchErrors";
 // Функция создания карточки
-function createCard(linkValue, nameValue, openImageFunction, deleteCardFunction, cardInfo, userId) {
+function createCard(linkValue, nameValue, openImageFunction, deleteCardFunction, cardInfo, myId) {
     // @todo: Темплейт карточки
     const cardTemplate = document.querySelector('#card-template').content;
     const card = cardTemplate.querySelector('.card').cloneNode(true);
@@ -16,8 +16,13 @@ function createCard(linkValue, nameValue, openImageFunction, deleteCardFunction,
     cardImage.src = linkValue;
     cardName.textContent = nameValue;
     cardImage.alt = nameValue;
+
+    if (cardInfo.ownerId !== myId) {
+        deleteButton.remove();
+    }
+
     likeCount.textContent = cardInfo.cardLikes.length;
-    if (cardInfo.cardLikes.some((like) => like._id === userId)) {
+    if (cardInfo.cardLikes.some((like) => like._id === myId)) {
         likeButton.classList.add('card__like-button_is-active');
     };
 
